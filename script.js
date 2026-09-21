@@ -16,6 +16,7 @@ const products = [
   {id:12,name:"Kitchen Container Set",price:650,category:"Home",icon:"🍱"},
   {id:13,name:"Sugar",price:110,category:"Grocery",icon:"🍚"}
   const WHATSAPP_NUMBER = "9779765894505";
+];
 
 const products = [
 
