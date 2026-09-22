@@ -1,30 +1,92 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DS Collection | Gaur</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7f8;color:#182026}
-header{position:sticky;top:0;z-index:20;background:#087f5b;color:#fff;padding:14px 5%;display:flex;justify-content:space-between;align-items:center}
-.logo b{font-size:24px}.logo small{display:block;margin-top:3px}.cart{background:#fff;color:#087f5b;padding:10px 15px;border:0;border-radius:24px;font-weight:bold;cursor:pointer}
-.badge{background:#e03131;color:#fff;border-radius:50%;padding:3px 7px;margin-left:4px}.hero{text-align:center;padding:55px 18px;background:linear-gradient(135deg,#e9fff6,#fff)}
-.hero h1{font-size:38px;margin:8px 0}.hero p{color:#555}.cta{display:inline-block;background:#087f5b;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:bold}
-.wrap{max-width:1200px;width:92%;margin:28px auto}.search{width:100%;padding:13px;border:1px solid #ddd;border-radius:9px;font-size:16px}
-.cats{display:flex;gap:8px;overflow:auto;padding:15px 0}.cat{white-space:nowrap;background:#fff;border:1px solid #ddd;padding:9px 15px;border-radius:20px;cursor:pointer}.cat.active{background:#087f5b;color:#fff}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px #00000010}.pic{height:150px;background:#eef7f3;display:grid;place-items:center;font-size:60px}
-.info{padding:13px}.info h3{font-size:16px;margin:0 0 6px}.muted{font-size:12px;color:#777}.price{font-size:18px;color:#087f5b;font-weight:bold;margin:9px 0}.add{width:100%;background:#087f5b;color:#fff;padding:10px;border:0;border-radius:7px;font-weight:bold;cursor:pointer}
-footer{background:#17202a;color:#fff;text-align:center;padding:30px;margin-top:40px}.modal{display:none;position:fixed;inset:0;background:#0008;z-index:100;align-items:center;justify-content:center;padding:14px}.modal.show{display:flex}
-.box{background:#fff;width:100%;max-width:600px;max-height:90vh;overflow:auto;border-radius:15px;padding:22px;position:relative}.close{position:absolute;right:15px;top:12px;border:0;border-radius:50%;width:34px;height:34px;font-size:20px;cursor:pointer}.box h2{margin-top:0}
-.item{display:flex;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:12px 0}.emoji{width:52px;height:52px;background:#f2f6f5;border-radius:8px;display:grid;place-items:center;font-size:28px}.grow{flex:1}.qty button{width:28px;height:28px;border:1px solid #ddd;background:#fff;border-radius:5px;cursor:pointer}.remove{background:#fee2e2;color:#c92a2a;padding:7px;border:0;border-radius:6px;cursor:pointer}.total{display:flex;justify-content:space-between;font-weight:bold;font-size:20px;border-top:2px solid #ddd;padding-top:14px;margin-top:15px}.checkout,.wa{width:100%;padding:13px;margin-top:15px;border:0;border-radius:8px;color:#fff;font-weight:bold;font-size:16px;cursor:pointer}.checkout{background:#087f5b}.wa{background:#25d366}
-.field{margin:13px 0}.field label{display:block;font-weight:bold;margin-bottom:6px}.field input,.field textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:15px}.field textarea{min-height:80px}.notice{background:#e9fff6;padding:12px;border-radius:8px;color:#075e45;margin-bottom:14px}.summary{background:#f7f8fa;padding:12px;border-radius:8px}
-@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}.hero h1{font-size:28px}.pic{height:125px;font-size:50px}}
-</style></head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS Collection | Gaur</title>
+  <meta name="description" content="DS Collection - Fashion and daily-use products with WhatsApp ordering in Gaur.">
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-<header><div class="logo"><b>DS Collection</b><small>Gaur, Rautahat</small></div><button class="cart" onclick="openCart()">🛒 Cart <span id="count" class="badge">0</span></button></header>
-<section class="hero"><h1>Fashion & Daily Use Products</h1><p>Online order • Gaur delivery • Home delivery within 1 day</p><a class="cta" href="#shop">Shop Now</a></section>
-<main class="wrap" id="shop"><input id="search" class="search" placeholder="🔎 Search products..." oninput="render()"><div class="cats" id="cats"></div><div id="products" class="grid"></div></main>
-<footer><b>DS Collection</b><p>📍 Gaur, Rautahat</p><p>🚚 Gaur only • Delivery within 1 day</p><p>📱 WhatsApp: 9765894505</p></footer>
-<div id="cartModal" class="modal"><div class="box"><button class="close" onclick="closeCart()">×</button><h2>🛒 Your Cart</h2><div id="cart"></div></div></div>
-<div id="formModal" class="modal"><div class="box"><button class="close" onclick="closeForm()">×</button><h2>📦 Delivery Details</h2><div class="notice">🚚 Delivery available in <b>Gaur only</b><br>⚡ Home delivery within <b>1 day</b></div><div id="summary" class="summary"></div>
-<form id="orderForm"><div class="field"><label>Full Name *</label><input id="name" required placeholder="Your name"></div><div class="field"><label>Mobile Number *</label><input id="mobile" required pattern="[0-9]{10}" placeholder="98XXXXXXXX"></div><div class="field"><label>Delivery Address *</label><input id="address" required placeholder="Gaur, ward / tole"></div><div class="field"><label>Note</label><textarea id="note" placeholder="Any special instruction"></textarea></div><button class="wa" type="submit">📱 Send Order to WhatsApp</button></form></div></div>
-<script src="script.js"></script></body></html>
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="#">
+        <span class="brand-mark">DS</span>
+        <span><strong>DS Collection</strong><small>Gaur, Rautahat</small></span>
+      </a>
+      <button class="cart-btn" id="cartBtn">🛒 Cart <span id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-content">
+        <div>
+          <p class="eyebrow">ONLINE SHOPPING • GAUR</p>
+          <h1>Fashion & Daily Use Products</h1>
+          <p class="hero-text">Order from home and get delivery in Gaur within 1–2 days.</p>
+          <a href="#products" class="primary-btn">Shop Now</a>
+        </div>
+        <div class="hero-card">
+          <div class="hero-icon">🛍️</div>
+          <h3>Easy WhatsApp Order</h3>
+          <p>Select products, add your details, and send the order directly to WhatsApp.</p>
+          <strong>🚚 1–2 Days Delivery in Gaur</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="container shop" id="products">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">OUR PRODUCTS</p>
+          <h2>Shop by Category</h2>
+        </div>
+        <input id="searchInput" class="search" type="search" placeholder="Search products...">
+      </div>
+
+      <div class="categories" id="categories"></div>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+  </main>
+
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="drawer-panel">
+      <div class="drawer-head">
+        <h2>Your Cart</h2>
+        <button class="close-btn" id="closeCart">×</button>
+      </div>
+      <div id="cartItems" class="cart-items"></div>
+      <div class="cart-total"><span>Total</span><strong id="cartTotal">Rs. 0</strong></div>
+      <button class="whatsapp-btn" id="checkoutBtn">📲 Order on WhatsApp</button>
+      <p class="small-note">Delivery available in Gaur. Expected delivery: 1–2 days.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="orderModal">
+    <div class="modal-card">
+      <button class="close-btn modal-close" id="closeModal">×</button>
+      <h2>Delivery Details</h2>
+      <p class="muted">Enter your details. Your order will open in WhatsApp.</p>
+      <form id="orderForm">
+        <label>Full Name<input required id="customerName" placeholder="Your name"></label>
+        <label>Mobile Number<input required id="customerPhone" inputmode="tel" placeholder="98XXXXXXXX"></label>
+        <label>Delivery Address<input required id="customerAddress" placeholder="Gaur, ward / tole"></label>
+        <label>Note (optional)<textarea id="customerNote" rows="3" placeholder="Any special instruction"></textarea></label>
+        <button class="whatsapp-btn" type="submit">Send Order to WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <footer>
+    <div class="container footer-content">
+      <div><strong>DS Collection</strong><p>Fashion & Daily Use Products</p></div>
+      <div><p>📍 Gaur, Rautahat</p><p>🚚 Delivery: 1–2 days</p><p>📲 +977 9765894505</p></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
